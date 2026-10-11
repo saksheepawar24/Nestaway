@@ -1,0 +1,27 @@
+<% if (typeof success !=='undefined' && success && success.length> 0) { %>
+    <div class="alert-banner alert-success" id="successAlert">
+        <div class="alert-content">
+            <i class="fa-solid fa-circle-check alert-icon"></i>
+            <span>
+                <%= success %>
+            </span>
+        </div>
+        <button type="button" class="alert-close" onclick="document.getElementById('successAlert').remove()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <% } %>
+
+        <% if (typeof error !=='undefined' && error && error.length> 0) { %>
+            <div class="alert-banner alert-error" id="errorAlert">
+                <div class="alert-content">
+                    <i class="fa-solid fa-circle-exclamation alert-icon"></i>
+                    <span>
+                        <%= error %>
+                    </span>
+                </div>
+                <button type="button" class="alert-close" onclick="document.getElementById('errorAlert').remove()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <% } %>

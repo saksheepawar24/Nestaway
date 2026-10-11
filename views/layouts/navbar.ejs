@@ -1,0 +1,44 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <!-- Logo / Brand Icon -->
+        <a href="/" class="nav-brand">
+            <i class="fa-regular fa-compass logo-icon"></i>
+            <span class="brand-name">NestAway</span>
+        </a>
+
+        <!-- Center Search Bar -->
+        <form class="nav-search-bar" action="/listings" method="GET">
+            <input type="text" name="location" placeholder="Search destinations" class="search-input" required />
+            <button type="submit" class="search-btn">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+
+        <!-- Right Side Nav Actions -->
+        <div class="nav-links">
+            <a href="/listings/create" class="nav-item host-btn">
+                <i class="fa-solid fa-plus"></i>
+                <span>Create New Listing</span>
+            </a>
+        </div>
+
+        <div class="nav-links-auth">
+            <% if(!currUser){%>
+                <a href="/signup" class="nav-item auth-btn signup-btn">
+                    <span>Sign Up</span>
+                </a>
+                <a href="/login" class="nav-item auth-btn login-btn">
+                    <span>Login</span>
+                </a>
+                <%} %>
+                    <% if(currUser){%>
+                        <a href="/logout" class="nav-item auth-btn logout-btn">
+                            <span>Logout</span>
+                        </a>
+                        <a href="/listings/my-listings" class="nav-item">
+                            <span>My Listings</span>
+                        </a>
+                    <% } %>
+        </div>
+    </div>
+</nav>

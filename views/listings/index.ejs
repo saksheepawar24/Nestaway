@@ -1,0 +1,95 @@
+<% layout("/layouts/boilerplate") %>
+<div id="filters-container">
+    <!-- Filters Bar -->
+    <div id="filters">
+    <a href="/listings?category=Trending" class="filter <%= currCategory === 'Trending' ? 'active' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-fire"></i></div>
+        <p>Trending</p>
+    </a>
+    <a href="/listings?category=Rooms" class="filter <%= currCategory === 'Rooms' ? 'active' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-bed"></i></div>
+        <p>Rooms</p>
+    </a>
+    <a href="/listings?category=Iconic Cities" class="filter <%= currCategory === 'Iconic Cities' ? 'active' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-tree-city"></i></div>
+        <p>Iconic Cities</p>
+    </a>
+    <a href="/listings?category=Mountains" class="filter <%= currCategory === 'Mountains' ? 'active' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-mountain"></i></div>
+        <p>Mountains</p>
+    </a>
+    <a href="/listings?category=Beaches" class="filter <%= currCategory === 'Beaches' ? 'active' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-person-swimming"></i></div>
+        <p>Beaches</p>
+    </a>
+    <a href="/listings?category=Camping" class="filter <%= currCategory === 'Camping' ? 'active' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-tree"></i></div>
+        <p>Camping</p>
+    </a>
+    <a href="/listings?category=Farms" class="filter <%= currCategory === 'Farms' ? 'active' : '' %>">
+        <div class="filter-icon"><i class="fa-solid fa-cow"></i></div>
+        <p>Farms</p>
+    </a>
+    <a href="/listings?category=Castles" class="filter <%= currCategory === 'Castles' ? 'active' : '' %>">
+        <div class="filter-icon"><i class="fa-brands fa-fort-awesome"></i></div>
+        <p>Castles</p>
+    </a>
+</div>
+
+    <!-- Tax Toggle Switch -->
+    <div class="tax-toggle-wrapper">
+        <span class="tax-label">Display total after taxes</span>
+        <label class="tax-switch">
+            <input type="checkbox" id="tax-switch">
+            <span class="tax-slider"></span>
+        </label>
+    </div>
+</div>
+    <div class="container-listing">
+        <% for(let listing of allListings){ %>
+            <ul class="all-listing-list">
+                <li class="indiv-list">
+                    <a href="/listings/<%= listing.id %>">
+                        <div class="card-img-wrapper">
+                            <img src="<%= listing.images[0].url %>" alt="<%= listing.title %>" class="listing-img">
+                        </div>
+                        <div class="card-info">
+                            <p class="listing-title">
+                                <%= listing.title %>
+                            </p>
+                            <% if(listing.price) { %>
+                            <!-- Pass base price via data attribute, display base or calculated price -->
+                                <p class="listing-price">
+                                    <strong>&#8377; <span class="price-value" data-base-price="<%= listing.price %>"><%= listing.price.toLocaleString("en-IN") %></span></strong> 
+                                    <span class="price-suffix">/ night</span>
+                                    <span class="tax-info">(includes 18% GST)</span>
+                                </p>
+                            <% } %>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <% } %>
+    </div>
+    <script>
+    const taxSwitch = document.getElementById("tax-switch");
+    
+    taxSwitch.addEventListener("click", () => {
+        const priceElements = document.querySelectorAll(".price-value");
+        const taxInfoElements = document.querySelectorAll(".tax-info");
+        
+        priceElements.forEach((el, index) => {
+            let basePrice = parseFloat(el.getAttribute("data-base-price"));
+            
+            if (taxSwitch.checked) {
+                // Assuming 18% tax rate (change as required)
+                let finalPrice = basePrice * 1.18; 
+                el.innerText = Math.round(finalPrice).toLocaleString("en-IN");
+                taxInfoElements[index].style.display = "inline";
+            } else {
+                el.innerText = basePrice.toLocaleString("en-IN");
+                taxInfoElements[index].style.display = "none";
+            }
+        });
+    });
+</script>

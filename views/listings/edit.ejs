@@ -1,0 +1,95 @@
+<% layout("/layouts/boilerplate") %>
+
+    <div class="form-container">
+        <h2 class="form-heading">Edit Listing</h2>
+
+        <form method="POST" action="/listings/<%=listing.id %>/edit?method=PUT" class="listing-form needs-validation"
+            novalidate enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="listing-title">Title</label>
+                <input id="listing-title" name="listing[title]" type="text" value="<%=listing.title %>"
+                    placeholder="e.g. Palazzo Monterica" class="form-control" required>
+                <div class="valid-feedback">Title looks good!</div>
+                <div class="invalid-feedback">Please enter a valid title.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="listing-desc">Description</label>
+                <textarea id="listing-desc" name="listing[description]" class="form-control" rows="4"
+                    required><%=listing.description %></textarea>
+                <div class="invalid-feedback">Please enter a description.</div>
+            </div>
+
+                        <!-- Display Existing Images Preview -->
+                <div class="form-group">
+                    <label class="form-label">Current Images</label>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem;">
+                        <% if(listing.images && listing.images.length > 0) { %>
+                            <% listing.images.forEach((img, index) => { %>
+                                <div style="position: relative; text-align: center;">
+                                    <!-- Use the thumbnail version from controller or base url -->
+                                    <img src="<%= originalImgUrls[index] %>" alt="Listing Image" style="width: 100px; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
+                                    <span style="display: block; font-size: 0.75rem; color: #666;">#<%= index + 1 %> <%= index === 0 ? '(Cover)' : '' %></span>
+                                </div>
+                            <% }) %>
+                        <% } %>
+                    </div>
+            </div>
+
+        <!-- Upload New Images -->
+        <div class="form-group">
+            <label for="listing-images" class="form-label">Upload New Images (Optional)</label>
+            <input id="listing-images" name="listing[images]" class="form-control" type="file" multiple>
+            <small class="form-text text-muted">Upload additional pictures or select files to replace current ones.</small>
+        </div>
+
+        <!-- Option to Replace All Existing Images vs Append -->
+        <div class="form-group form-check mb-3 replace-checkbox-container">
+            <input type="checkbox" name="replaceImages" class="form-check-input" id="replaceImages">
+            <label class="form-check-label" for="replaceImages">Replace all existing images with newly uploaded ones</label>
+        </div>
+
+        <!-- Cover Position Select -->
+        <div class="form-group mb-3">
+            <label for="coverIndex" class="form-label">Set Cover Image Position (Index number)</label>
+            <input type="number" name="coverIndex" id="coverIndex" class="form-control" placeholder="e.g. 0 for first image" min="0" max="4">
+        </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="listing-price">Price (/night)</label>
+                    <input id="listing-price" name="listing[price]" value="<%=listing.price%>" placeholder="4000"
+                        type="number" class="form-control" required min="1">
+                    <div class="invalid-feedback">Please enter a valid price.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="listing-location">Location</label>
+                    <input id="listing-location" name="listing[location]" value="<%=listing.location %>"
+                        placeholder="L.A" type="text" class="form-control" required>
+                    <div class="invalid-feedback">Please enter a location.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="listing-country">Country</label>
+                <input id="listing-country" name="listing[country]" value="<%=listing.country %>" placeholder="USA"
+                    type="text" class="form-control" required>
+                <div class="invalid-feedback">Please enter a country.</div>
+            </div>
+
+                <!-- Category -->
+            <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select name="listing[category]" class="form-select" required>
+                    <option value="" disabled>Select a category</option>
+                    <% let categories = ["Trending", "Rooms", "Iconic Cities", "Mountains", "Beaches", "Camping", "Farms", "Castles"]; %>
+                    <% for(let cat of categories) { %>
+                        <option value="<%= cat %>" <%= listing.category === cat ? 'selected' : '' %>><%= cat %></option>
+                    <% } %>
+                </select>
+            </div>
+
+            <button id="listing-submit" type="submit" class="submit-btn">Edit Listing</button>
+        </form>
+    </div>

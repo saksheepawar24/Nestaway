@@ -1,0 +1,84 @@
+<% layout("/layouts/boilerplate") %>
+
+    <div class="form-container">
+        <h2 class="form-heading">Create a New Listing</h2>
+
+        <form method="POST" action="/listings" class="listing-form needs-validation" novalidate
+            enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="listing-title">Title</label>
+                <input id="listing-title" name="listing[title]" type="text" class="form-control"
+                    placeholder="e.g. Palazzo Monterica" required>
+                <!-- bootstrap validation -->
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please provide a valid title.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="listing-desc">Description</label>
+                <textarea id="listing-desc" name="listing[description]" rows="4" class="form-control"
+                    placeholder="Write a short description..." required></textarea>
+                <div class="invalid-feedback">Please enter a short description.</div>
+            </div>
+
+            <!-- Multiple Image Upload Field -->
+            <div class="form-group">
+                <label for="listing-images" class="form-label">Upload Images (Rooms, Surroundings, Washrooms, etc.)</label>
+                <input id="listing-images" name="listing[images]" class="form-control" type="file" multiple required>
+                <div class="invalid-feedback">Please upload at least one image.</div>
+            </div>
+
+            <!-- Cover Picture Position Selection -->
+            <div class="form-group mb-3">
+                <label for="coverIndex" class="form-label">Which image position do you want as your Cover Picture?</label>
+                <select name="coverIndex" id="coverIndex" class="form-control" required>
+                    <option value="0" selected>1st Image (Default)</option>
+                    <option value="1">2nd Image</option>
+                    <option value="2">3rd Image</option>
+                    <option value="3">4th Image</option>
+                    <option value="4">5th Image</option>
+                </select>
+                <small class="form-text text-muted">Select the order number of the image you uploaded above that you want shown as the main card preview.</small>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="listing-price">Price (/night)</label>
+                    <input id="listing-price" name="listing[price]" class="form-control" placeholder="4000"
+                        type="number" required>
+                    <div class="invalid-feedback">Price must be a valid positive number.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="listing-location">Location</label>
+                    <input id="listing-location" name="listing[location]" class="form-control" placeholder="L.A"
+                        type="text" required>
+                    <div class="invalid-feedback">Location should be valid.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="listing-country">Country</label>
+                <input id="listing-country" name="listing[country]" class="form-control" placeholder="USA" type="text"
+                    required>
+                <div class="invalid-feedback">Country should be valid.</div>
+            </div>
+            <!-- Add this inside your newListing form form-group elements -->
+<div class="mb-3">
+    <label for="category" class="form-label">Category</label>
+    <select name="listing[category]" class="form-select" required>
+        <option value="" disabled selected>Select a category</option>
+        <option value="Trending">Trending</option>
+        <option value="Rooms">Rooms</option>
+        <option value="Iconic Cities">Iconic Cities</option>
+        <option value="Mountains">Mountains</option>
+        <option value="Beaches">Beaches</option>
+        <option value="Camping">Camping</option>
+        <option value="Farms">Farms</option>
+        <option value="Castles">Castles</option>
+    </select>
+</div>
+
+            <button id="listing-submit" type="submit" class="submit-btn">Create New Listing</button>
+        </form>
+    </div>
