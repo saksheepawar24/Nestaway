@@ -23,7 +23,7 @@
         </div>
 
         <div class="nav-links-auth">
-            <% if(!currUser){%>
+            <% if(!locals.currUser){%>
                 <a href="/signup" class="nav-item auth-btn signup-btn">
                     <span>Sign Up</span>
                 </a>
@@ -31,7 +31,7 @@
                     <span>Login</span>
                 </a>
                 <%} %>
-                    <% if(currUser){%>
+                    <% if(locals.currUser){%>
                         <a href="/logout" class="nav-item auth-btn logout-btn">
                             <span>Logout</span>
                         </a>

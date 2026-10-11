@@ -52,9 +52,6 @@ async function main() {
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
-    crypto:{
-        secret: process.env.SECRET,
-    },
     touchAfter: 24 * 3600,
 });
 store.on("error", (err) => {
@@ -108,6 +105,7 @@ app.use((req, res, next) => {
 app.get("/", wrapAsync(async (req, res) => {
     const allListings = await Listing.find({});
     res.render("listings/index.ejs", { allListings, currCategory: null});
+    
 }));
 
 app.use("/listings", listingRoutes);
@@ -116,10 +114,21 @@ app.use("/", userRoutes);
 
 //custom middleware and error handling
 app.all("{*splat}", (req, res, next) => {
+    console.log("404 for:", req.method, req.originalUrl);
     next(new ExpressError(404, "Page Not Found"));
 });
 
+// app.use((err, req, res, next) => {
+//     let { statusCode = 500, message = "Something went wrong" } = err;
+//     res.status(statusCode).render("error.ejs", { err, statusCode, message });
+// });
 app.use((err, req, res, next) => {
+    console.log(err); // shows the REAL original error
+
+    if (res.headersSent) {
+        return next(err); // response already sent, let Express close it safely
+    }
+
     let { statusCode = 500, message = "Something went wrong" } = err;
     res.status(statusCode).render("error.ejs", { err, statusCode, message });
 });
