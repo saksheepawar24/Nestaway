@@ -90,6 +90,14 @@ app.use((req, res, next) => {
     next();
 });
 
+// app.get("/whoami", (req, res) => {
+//     res.json({
+//         loggedIn: req.isAuthenticated(),
+//         user: req.user ? req.user.username : null,
+//         sessionId: req.sessionID
+//     });
+// });
+
 //demo user to check if authentication works
 // app.get("/demouser", async (req, res) => {
 //     let fakeUser = new User({
@@ -123,8 +131,6 @@ app.all("{*splat}", (req, res, next) => {
 //     res.status(statusCode).render("error.ejs", { err, statusCode, message });
 // });
 app.use((err, req, res, next) => {
-    console.log(err); // shows the REAL original error
-
     if (res.headersSent) {
         return next(err); // response already sent, let Express close it safely
     }
